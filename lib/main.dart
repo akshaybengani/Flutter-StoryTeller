@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_teller/data.dart';
-import 'dart:math';
+import 'package:story_teller/cardscrollable.dart';
 
 void main() => runApp(MyApp());
 
@@ -132,68 +132,80 @@ class _MyHomeAppState extends State<MyHomeApp> {
                 )
               ],
             ),
+            // Favourites Section
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Favourites",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 46,
+                      fontFamily: "Calibre-Semibold",
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                      size: 46,
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 22, vertical: 6),
+                      child: Text(
+                        'Latest',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15),
+                Text(
+                  "9+ Stories",
+                  style: TextStyle(color: Colors.blueAccent),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 18),
+                  child: ClipRRect(
+                    borderRadius:  BorderRadius.circular(20),
+                    child: Image.asset("assets/image_02.jpg",
+                        width: 296, height: 222),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
-    );
-  }
-}
-
-class CardScrollable extends StatelessWidget {
-  var currentPage;
-  var padding = 20.0;
-  var verticalInset = 20.0;
-
-  CardScrollable(this.currentPage);
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: widgetAspectRatio,
-      child: LayoutBuilder(builder: (context, constraints) {
-        var width = constraints.maxWidth;
-        var height = constraints.maxHeight;
-
-        var safeWidth = width - 2 * padding;
-        var safeHeight = height - 2 * padding;
-
-        var heightOfPrimaryCard = safeHeight;
-        var widthOfPrimaryCard = heightOfPrimaryCard * cardAspectRatio;
-
-        var primaryCardLeft = safeWidth - widthOfPrimaryCard;
-        var horizontalInset = primaryCardLeft / 2;
-
-        List<Widget> cardList = new List();
-
-        for (var i = 0; i < images.length; i++) {
-          var delta = i - currentPage;
-          bool isOnRight = delta > 0;
-
-          var start = padding +
-              max(
-                  primaryCardLeft -
-                      horizontalInset * -delta * (isOnRight ? 15 : 1),
-                  0.0);
-
-          var cardItem = Positioned.directional(
-            top: padding + verticalInset * max(-delta, 0.0),
-            bottom: padding + verticalInset * max(-delta, 0.0),
-            start: start,
-            textDirection: TextDirection.rtl,
-            child: Container(
-              child: AspectRatio(
-                aspectRatio: cardAspectRatio,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[Image.asset(images[i], fit: BoxFit.cover)],
-                ),
-              ),
-            ),
-          );
-          cardList.add(cardItem);
-        }
-        return Stack(children: cardList);
-      }),
     );
   }
 }
